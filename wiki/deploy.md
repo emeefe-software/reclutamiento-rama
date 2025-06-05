@@ -1,0 +1,1 @@
+Instalar dependencias por SSH usando el php /usr/bin/ea-php73 composer.phar

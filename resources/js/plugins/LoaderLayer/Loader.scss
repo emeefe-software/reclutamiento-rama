@@ -1,0 +1,30 @@
+.loader-layer{
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: rgba(25, 57, 77, 1);
+    z-index: 10000;
+    top: -100vh;
+    bottom: 100vh;
+    transition-duration: 1s;
+    opacity:0;
+
+    .loader-title{
+        color: #fff;
+    }
+
+    .loader-msg{
+        color: #eee;
+        font-weight: 100;
+    }
+
+    .loader-icon{
+        color: #fff;
+    }
+
+    &.showing{
+        top:0;
+        bottom:0;
+        opacity:1;
+    }
+}
