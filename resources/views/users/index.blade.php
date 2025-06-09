@@ -33,31 +33,33 @@ $statusActivos = 'checked';
     <div class="card-header">
         <form method="GET" action="{{ route('users.index') }}">
             <div class="form-row align-items-center">
-                <div class="col-auto">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="activos" {{ $statusActivos }} name="activos">
-                        <label class="form-check-label" for="activos">Activos</label>
+                <div class="form-group mb-0 mr-3 d-flex align-items-center">
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="activos" {{ $statusActivos }} name="activos">
+                            <label class="form-check-label" for="activos">Activos</label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="bloqueados" {{ $statusBloqueados }} name="bloqueados">
+                            <label class="form-check-label" for="bloqueados">Bloqueados</label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="desabilitados" {{ $statusDesabilitados }} name="desabilitados">
+                            <label class="form-check-label" for="desabilitados">Desabilitados</label>
+                        </div>
                     </div>
                 </div>
-                <div class="col-auto">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="bloqueados" {{ $statusBloqueados }} name="bloqueados">
-                        <label class="form-check-label" for="bloqueados">Bloqueados</label>
-                    </div>
-                </div>
-                <div class="col-auto">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="desabilitados" {{ $statusDesabilitados }} name="desabilitados">
-                        <label class="form-check-label" for="desabilitados">Desabilitados</label>
-                    </div>
-                </div>
-                <div class="col-auto">
+                <div class="form-group mb-0 mr-3 flex-grow-1">
                     <input type="text" class="form-control" id="search" placeholder="Buscar por nombre">
                 </div>
                 <div class="col-auto ml-auto">
                     <button type="submit" class="btn btn-info"><i class="fas fa-filter"></i> Filtrar</button>
                 </div>
-            </>
+            </div>
         </form>
     </div>
 
