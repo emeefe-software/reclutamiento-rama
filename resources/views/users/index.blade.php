@@ -52,7 +52,7 @@ $statusActivos = 'checked';
                     </div>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" id="search" name="search" placeholder="Buscar por nombre">
+                    <input type="text" class="form-control" id="search" placeholder="Buscar por nombre">
                 </div>
                 <div class="col-auto ml-auto">
                     <button type="submit" class="btn btn-info"><i class="fas fa-filter"></i> Filtrar</button>
@@ -164,6 +164,7 @@ $statusActivos = 'checked';
         el: '#app'
     })
 </script>
+//Filtrado de usuarios por nombre
 <script src="{{ asset('js/frontend/pages/searchUser.js') }}"></script>
 <!-- mensaje de confirmacion para eliminar un Usuario -->
 <script src="{{ asset('js/backend/pages/confirm_delete_user.js') }}"></script>

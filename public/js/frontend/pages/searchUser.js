@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    //Este script permite buscar usuarios en la tabla por nombre
     const searchInput = document.getElementById("search");
     const table = document.getElementById("usersTable");
     const rows = table
@@ -20,4 +21,3 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-// This script filters the user table based on the search input
