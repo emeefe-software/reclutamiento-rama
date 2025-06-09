@@ -5,7 +5,7 @@
 @section('description')
 <h1>Aspirantes a practicantes de Grupo RAMA</h1>
 <p>
-    Aspirantes que han agendado una entrevista en RAMA, por default se muestran aspirantes con entrevistas realizadas y aún no han sido descartadas y entrevistas pendientes.
+    Por defecto se muestran las entrevistas agendadas en RAMA. Puedes filtrar los aspirantes según el estado de su entrevista para ver candidatos con entrevistas no realizadas, rechazados, en evaluación, aceptados o inscritos.
 </p>
 @endsection
 
