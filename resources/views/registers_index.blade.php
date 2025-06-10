@@ -87,8 +87,8 @@
                         <td class="column-title">{{$register->end_at}}</td>
                         <td class="column-title">{{$register->end_at?str_pad($hours,2,'0',STR_PAD_LEFT).":".str_pad($minutes,2,'0',STR_PAD_LEFT). " hrs":''}}</td>
                         <td>
-                            <b-button size="sm" variant="primary" @click="prevEditarRegistro({{ $register }})"><b-icon icon="pencil-square"></b-icon></b-button>
-                            <b-button size="sm" variant="danger" @click="eliminaRegistro({{$register}})"><b-icon icon="trash"></b-icon></b-button>
+                            <b-button size="sm" variant="primary" @click="prevEditarRegistro({{ $register }})" data-toggle="tooltip" data-placement="top" title="Editar"><b-icon icon="pencil-square"></b-icon></b-button>
+                            <b-button size="sm" variant="danger" @click="eliminaRegistro({{$register}})" data-toggle="tooltip" data-placement="top" title="Eliminar"><b-icon icon="trash"></b-icon></b-button>
                         </td>
                     </tr>
                 @endforeach
