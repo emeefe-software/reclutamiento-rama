@@ -48,7 +48,7 @@
 
             {{-- Input de búsqueda --}}
             <div class="form-group mb-0 mr-3 flex-grow-1">
-                <input type="text" class="form-control" id="search" placeholder="Buscar por nombre">
+                <input type="text" class="form-control" id="search" placeholder="Buscar por nombre o area">
             </div>
 
             {{-- Botón filtrar --}}
@@ -65,8 +65,8 @@
                 <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Teléfono</th>
                     <th scope="col">Estatus de la entrevista</th>
+                    <th scope="col">Área</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -75,8 +75,9 @@
                 <tr>
                     <td>{{$candidate->fullname()}}</td>
                     <td>{{$candidate->email}}</td>
-                    <td>{{$candidate->phone}}</td>
                     <td>{{$candidate->interview->getStatus()}}</td>
+                    <td>{{$candidate->area}}</td>
+
                     <td>
                         <a href="{{route('interviews.show',['interview'=>$candidate->interview])}}" class="btn btn-info btn-sm"><i class="fas fa-clipboard-check"></i> Seguimiento a entrevista</a>
                     </td>

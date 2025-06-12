@@ -83,20 +83,6 @@ class UserController extends Controller
         // Query base: solo candidatos
         $query = User::whereRoleIs(Role::ROLE_CANDIDATE);
 
-        /*$query->whereHas('interview', function ($q) use ($status) {
-            // Filtrar entrevistas por fecha de horario en este mes
-            $q->whereHas('hour', function ($q2) {
-                $q2->whereBetween('datetime', [
-                    now()->startOfMonth(),
-                    now()->endOfMonth()
-                ]);
-            });
-
-            if ($status) {
-                $q->where('status', $status);
-            }
-        });*/
-
         $query->whereHas('interview', function ($q) use ($status, $startDate, $endDate) {
             $q->whereHas('hour', function ($q2) use ($startDate, $endDate) {
                 $q2->whereBetween('datetime', [$startDate, $endDate]);

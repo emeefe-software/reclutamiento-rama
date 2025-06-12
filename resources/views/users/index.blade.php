@@ -70,10 +70,10 @@ $statusActivos = 'checked';
                     <th scope="col">Nombre</th>
                     <th scope="col">Email</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Área</th>
                     <th scope="col">Teléfono</th>
                     <th scope="col">Contacto</th>
                     <th scope="col">Dirección</th>
-                    <th scope="col">Área</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -102,6 +102,13 @@ $statusActivos = 'checked';
                         @endif
                     </td>
                     <td class="column-title">
+                        @isset($listedUser->area)
+                        {{$listedUser->area}}
+                        @else
+                        N/D
+                        @endisset
+                    </td>
+                    <td class="column-title">
                         @isset($listedUser->phone)
                         {{$listedUser->phone}}
                         @else
@@ -120,13 +127,6 @@ $statusActivos = 'checked';
                     <td class="column-title">
                         @isset($listedUser->address)
                         {{$listedUser->address}}
-                        @else
-                        N/D
-                        @endisset
-                    </td>
-                    <td class="column-title">
-                        @isset($listedUser->area)
-                        {{$listedUser->area}}
                         @else
                         N/D
                         @endisset
