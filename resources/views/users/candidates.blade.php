@@ -5,7 +5,7 @@
 @section('description')
 <h1>Aspirantes a practicantes de Grupo RAMA</h1>
 <p>
-    Por defecto se muestran las entrevistas agendadas en RAMA. Puedes filtrar los aspirantes según el estado de su entrevista para ver candidatos con entrevistas no realizadas, rechazados, en evaluación, aceptados o inscritos.
+    Por defecto se muestran las entrevistas agendadas en RAMA para el mes en curso. Puedes filtrar los aspirantes por fecha de entrevista y según el estado de su entrevista para ver candidatos con entrevistas no realizadas, rechazados, en evaluación, aceptados o inscritos.
 </p>
 @endsection
 
@@ -16,12 +16,33 @@
             {{-- Select de estado --}}
             <div class="form-group mb-0 mr-3" style="min-width: 200px;">
                 <select name="status" class="form-control">
-                    <option value="">-- Agendados --</option>
+                    <option value="">-- Todos --</option>
+                    <option value="scheduled" {{ request('status') == 'scheduled' ? 'selected' : '' }}>Agendados</option>
                     <option value="unrealized" {{ request('status') == 'unrealized' ? 'selected' : '' }}>No realizada</option>
                     <option value="done-rejected" {{ request('status') == 'done-rejected' ? 'selected' : '' }}>Rechazado</option>
-                    <option value="done-checking" {{ request('status') == 'done-evaluating' ? 'selected' : '' }}>Evaluando</option>
+                    <option value="done-checking" {{ request('status') == 'done-checking' ? 'selected' : '' }}>Evaluando</option>
                     <option value="done-accepted" {{ request('status') == 'done-accepted' ? 'selected' : '' }}>Aceptado</option>
                     <option value="done-enrolled" {{ request('status') == 'done-enrolled' ? 'selected' : '' }}>Inscrito</option>
+                </select>
+            </div>
+
+            {{-- Select de mes --}}
+            <div class="form-group mb-0 mr-3">
+                <select name="month" class="form-control">
+                    @for ($m = 1; $m <= 12; $m++)
+                        <option value="{{ $m }}" {{ $selectedMonth == $m ? 'selected' : '' }}>
+                        {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
+                        </option>
+                        @endfor
+                </select>
+            </div>
+
+            {{-- Select de año --}}
+            <div class="form-group mb-0 mr-3">
+                <select name="year" class="form-control">
+                    @for ($y = now()->year; $y >= 2020; $y--)
+                    <option value="{{ $y }}" {{ $selectedYear == $y ? 'selected' : '' }}>{{ $y }}</option>
+                    @endfor
                 </select>
             </div>
 

@@ -42,6 +42,8 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //Función para mostrar los usuarios, con filtros opcionales
     public function index(Request $request)
     {
         // Comenzar sin filtro de estado (solo excluyendo candidatos)
@@ -68,29 +70,49 @@ class UserController extends Controller
         ]);
     }
 
+    //Función para mostrar los candidatos, con filtro opcional por estado de entrevista
     public function candidates(Request $request)
     {
         $status = $request->input('status');
+        $month = $request->input('month', now()->month);
+        $year = $request->input('year', now()->year);
+
+        $startDate = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth();
+        $endDate = $startDate->copy()->endOfMonth();
 
         // Query base: solo candidatos
         $query = User::whereRoleIs(Role::ROLE_CANDIDATE);
 
-        if ($status) {
-            // Si se selecciona un estado específico, filtrar por ese
-            $query->whereHas('interview', function ($q) use ($status) {
+        /*$query->whereHas('interview', function ($q) use ($status) {
+            // Filtrar entrevistas por fecha de horario en este mes
+            $q->whereHas('hour', function ($q2) {
+                $q2->whereBetween('datetime', [
+                    now()->startOfMonth(),
+                    now()->endOfMonth()
+                ]);
+            });
+
+            if ($status) {
                 $q->where('status', $status);
+            }
+        });*/
+
+        $query->whereHas('interview', function ($q) use ($status, $startDate, $endDate) {
+            $q->whereHas('hour', function ($q2) use ($startDate, $endDate) {
+                $q2->whereBetween('datetime', [$startDate, $endDate]);
             });
-        } else {
-            // Si no hay filtro, mostrar solo entrevistas agendadas
-            $query->whereHas('interview', function ($q) {
-                $q->where('status', 'scheduled');
-            });
-        }
+
+            if ($status) {
+                $q->where('status', $status);
+            }
+        });
 
         return view('users.candidates', [
             'user' => Auth::user(),
             'candidates' => $query->get(),
             'status' => $status, // para dejar seleccionado en el <select>
+            'selectedMonth' => $month,
+            'selectedYear' => $year,
         ]);
     }
 
