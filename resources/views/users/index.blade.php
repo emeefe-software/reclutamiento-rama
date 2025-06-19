@@ -54,7 +54,7 @@ $statusActivos = 'checked';
                     </div>
                 </div>
                 <div class="form-group mb-0 mr-3 flex-grow-1">
-                    <input type="text" class="form-control" id="search" placeholder="Buscar por nombre">
+                    <input type="text" class="form-control" id="search" placeholder="Buscar por nombre o área">
                 </div>
                 <div class="col-auto ml-auto">
                     <button type="submit" class="btn btn-info"><i class="fas fa-filter"></i> Filtrar</button>

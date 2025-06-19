@@ -48,7 +48,7 @@
 
             {{-- Input de búsqueda --}}
             <div class="form-group mb-0 mr-3 flex-grow-1">
-                <input type="text" class="form-control" id="search" placeholder="Buscar por nombre o area">
+                <input type="text" class="form-control" id="search" placeholder="Buscar por nombre o área">
             </div>
 
             {{-- Botón filtrar --}}
