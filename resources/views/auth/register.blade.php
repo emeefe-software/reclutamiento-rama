@@ -3,7 +3,8 @@
 @section('description')
 <h1>Registro</h1>
 <p>
-    Esta sección te permite dar de alta nuevos usuarios Activos de distintos roles: Administrador, Practicante, Responsable y Aspirante.
+    Esta sección te permite dar de alta nuevos usuarios Activos de distintos roles: Administrador, Practicante y Responsable. <br>
+     Para registrar un aspirante, debes hacerlo en la sección de "Entrevistas" y "Registrar Entrevista". 
 </p>
 @endsection
 
@@ -79,8 +80,10 @@
                 <div class="col-md-6">
                     <select multiple name="rol[]" class="form-control" v-model='form.rol'>
                         @foreach($roles as $rol)
+                            @if($rol->id != 4) <!-- Excluye el rol de aspirante -->
                             <option value="<?php echo $rol->id?>"> <?php echo $rol->display_name?></option>
-                        @endforeach>
+                            @endif
+                        @endforeach
                     </select>
                     <small id="rol-help" class="form-text text-muted">Puedes asignar uno o más roles.</small>
                     <b-badge v-if='errors && errors.rol' variant='danger'>@{{ errors.rol[0] }}</b-badge>

@@ -9,11 +9,13 @@ return [
         [
             'title' => 'Dashboard',
             'icon' => 'fa fa-dashboard',
-            'route_name' => 'dashboard.home'
+            'route_name' => 'dashboard.home',
+            'roles'=>[App\Role::ROLE_ADMIN, App\Role::ROLE_PRACTICING, App\Role::ROLE_RESPONSABLE, App\Role::ROLE_CANDIDATE],
         ],
         [
             'title' => 'Usuarios',
             'icon' => 'fa fa-users',
+            'roles'=> [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'submenu' => [
                 [
                     'title' => 'Ver usuarios',
@@ -32,6 +34,7 @@ return [
         [
             'title' => 'Universidades',
             'icon' => 'fas fa-graduation-cap',
+            'roles'=> [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'submenu' => [
                 [
                     'title' => 'Ver universidades',
@@ -46,6 +49,7 @@ return [
         [
             'title' => 'Carreras',
             'icon' => 'fas fa-user-graduate',
+            'roles'=> [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'submenu' => [
                 [
                     'title' => 'Ver carreras',
@@ -60,6 +64,7 @@ return [
         [
             'title' => 'Programas',
             'icon' => 'fa fa-book',
+            'roles'=> [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'submenu' => [
                 [
                     'title' => 'Ver programas',
@@ -74,6 +79,7 @@ return [
         [
             'title' => 'Entrevistas',
             'icon' => 'fas fa-book-reader',
+            'roles'=> [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'submenu' => [
                 [
                     'title' => 'Ver entrevistas',
@@ -88,6 +94,7 @@ return [
         [
             'title' => 'Horarios',
             'icon' => 'fas fa-calendar-alt',
+            'roles'=> [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'submenu' => [
                 [
                     'title' => 'Ver horarios',
@@ -102,6 +109,7 @@ return [
         [
             'title' => 'Configuración',
             'icon' => 'fas fa-cog',
+            'roles'=> [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'route_name' => 'settings'
         ]
     ],

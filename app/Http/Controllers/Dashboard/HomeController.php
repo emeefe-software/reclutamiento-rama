@@ -30,20 +30,40 @@ class HomeController extends Controller
         $pendingInterviews = null;
         $authenticatedUser = Auth::user();
         $rol = '';
-        
-        $pendingInterviews = Interview::pendingInterviews()->get()->sort(function($prevInterview, $nextInterview){
+        $pendingInterviews = Interview::pendingInterviews()->get()->sort(function ($prevInterview, $nextInterview) {
             return $prevInterview->hour()->first()->datetime < $nextInterview->hour()->first()->datetime ? -1 : 1;
         });
-        if($authenticatedUser->hasRole(Role::ROLE_ADMIN)){
+        if ($authenticatedUser->hasRole(Role::ROLE_ADMIN)) {
             $rol = 'Admin';
-        } else if($authenticatedUser->hasRole(ROLE::ROLE_RESPONSABLE)){
-            $rol = 'Responsable';
+            return view('dashboard.home', [
+                'authenticatedUser' => $authenticatedUser,
+                'pendingInterviews' => $pendingInterviews,
+                'rol' => $rol,
+            ]);
         }
-        
-        return view('dashboard.home',[
-            'authenticatedUser' => $authenticatedUser,
-            'pendingInterviews' => $pendingInterviews,
-            'rol' => $rol,
-        ]);
+        if ($authenticatedUser->hasRole(ROLE::ROLE_RESPONSABLE)) {
+            $rol = 'Responsable';
+            return view('dashboard.home', [
+                'authenticatedUser' => $authenticatedUser,
+                'pendingInterviews' => $pendingInterviews,
+                'rol' => $rol,
+            ]);
+        }
+
+        if($authenticatedUser->hasRole(Role::ROLE_PRACTICING)) {
+            $rol = 'Practicing';
+            return view('dashboard.welcome', [
+                'authenticatedUser' => $authenticatedUser,
+                'rol' => $rol,
+            ]);
+        }   
+
+        if($authenticatedUser->hasRole(Role::ROLE_CANDIDATE)) {
+            $rol = 'Candidate';
+            return view('dashboard.welcome', [
+                'authenticatedUser' => $authenticatedUser,
+                'rol' => $rol,
+            ]);
+        }   
     }
 }
