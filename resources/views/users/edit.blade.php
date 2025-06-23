@@ -43,159 +43,213 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
-                        <form method="POST" action="{{ route('users.update',['user'=>$userToEdit]) }}">
-                            {{ method_field('PUT')}}
-                            @csrf
+                <form method="POST" action="{{ route('users.update',['user'=>$userToEdit]) }}">
+                    {{ method_field('PUT')}}
+                    @csrf
 
-                            <div class="form-group row">
-                                <label for="first_name" class="col-md-4 col-form-label text-md-right">Nombre *</label>
+                    <div class="form-group row">
+                        <label for="first_name" class="col-md-4 col-form-label text-md-right">Nombre *</label>
 
-                                <div class="col-md-6">
-                                    <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ $userToEdit->first_name }}" required autocomplete="first_name" autofocus>
+                        <div class="col-md-6">
+                            <input id="first_name"
+                                type="text"
+                                name="first_name"
+                                class="form-control @error('first_name') is-invalid @enderror"
+                                value="{{ old('first_name', $userToEdit->first_name) }}"
+                                required
+                                autocomplete="given-name"
+                                autofocus>
 
-                                    @error('first_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                            @error('first_name')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                            <div class="form-group row">
-                                <label for="last_name" class="col-md-4 col-form-label text-md-right">Apellidos *</label>
+                    <div class="form-group row">
+                        <label for="last_name" class="col-md-4 col-form-label text-md-right">Apellidos *</label>
 
-                                <div class="col-md-6">
-                                    <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ $userToEdit->last_name }}" required autocomplete="last_name">
+                        <div class="col-md-6">
+                            <input id="last_name"
+                                type="text"
+                                class="form-control @error('last_name') is-invalid @enderror"
+                                name="last_name"
+                                value="{{ old('last_name', $userToEdit->last_name) }}"
+                                required
+                                autocomplete="family-name">
 
-                                    @error('last_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                            @error('last_name')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                            <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">Email *</label>
+                    <div class="form-group row">
+                        <label for="email" class="col-md-4 col-form-label text-md-right">Email *</label>
 
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $userToEdit->email }}" required autocomplete="email">
-                                    <small id="email-help" class="form-text text-muted">Debe ser único en el sistema.</small>
+                        <div class="col-md-6">
+                            <input id="email"
+                                type="email"
+                                name="email"
+                                value="{{ old('email', $userToEdit->email) }}"
+                                class="form-control @error('email') is-invalid @enderror"
+                                required
+                                autocomplete="email">
 
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                            <small id="email-help" class="form-text text-muted">Debe ser único en el sistema.</small>
 
-                            <div class="form-group row">
-                                <label for="area" class="col-md-4 col-form-label text-md-right">Área *</label>
+                            @error('email')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <input id="area" type="text" class="form-control @error('area') is-invalid @enderror" name="area" value="{{ $userToEdit->area }}" required autocomplete="area">
+                    <div class="form-group row">
+                        <label for="area" class="col-md-4 col-form-label text-md-right">Área *</label>
 
-                                    @error('area')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <input id="area"
+                                type="text"
+                                name="area"
+                                class="form-control @error('area') is-invalid @enderror"
+                                value="{{ old('area', $userToEdit->area) }}"
+                                required
+                                autocomplete="organization">
 
-                            <div class="form-group row">
-                                <label for="pin" class="col-md-4 col-form-label text-md-right">PIN(4 dígitos)</label>
+                            @error('area')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <input id="pin" type="number" min="1000" max="9999" class="form-control @error('pin') is-invalid @enderror" name="pin" value="{{$userToEdit->pin}}" autocomplete="new-pin">
-                                    <small id="pin-help" class="form-text text-muted">El PIN es obligatorio cuando se quieren contabilizar las horas por medio de la app</small>
-                                    @error('pin')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        <label for="pin" class="col-md-4 col-form-label text-md-right">PIN(4 dígitos)</label>
 
-                            <div class="form-group row">
-                                <label for="rol" class="col-md-4 col-form-label text-md-right">Roles *</label>
+                        <div class="col-md-6">
+                            <input id="pin" type="number" min="1000" max="9999" class="form-control @error('pin') is-invalid @enderror" name="pin" value="{{$userToEdit->pin}}" autocomplete="new-pin">
+                            <small id="pin-help" class="form-text text-muted">El PIN es obligatorio cuando se quieren contabilizar las horas por medio de la app</small>
+                            @error('pin')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <select multiple class="form-control" name="rol[]">
-                                        @foreach($roles as $rol)
-                                        <option value="<?php echo $rol->id ?>" {{in_array($rol->id, $userToEdit->roles()->pluck('id')->toArray()) ? 'selected="selected"': null}}> <?php echo $rol->display_name ?></option>
-                                        @endforeach>
-                                    </select>
-                                    <small id="rol-help" class="form-text text-muted">Puedes asignar uno o más roles.</small>
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        <label for="rol" class="col-md-4 col-form-label text-md-right">Roles *</label>
 
-                            <div class="form-group row">
-                                <label for="phone" class="col-md-4 col-form-label text-md-right">Teléfono</label>
+                        <div class="col-md-6">
+                            <select multiple class="form-control" name="rol[]">
+                                @foreach($roles as $rol)
+                                <option value="<?php echo $rol->id ?>" {{in_array($rol->id, $userToEdit->roles()->pluck('id')->toArray()) ? 'selected="selected"': null}}> <?php echo $rol->display_name ?></option>
+                                @endforeach>
+                            </select>
+                            <small id="rol-help" class="form-text text-muted">Puedes asignar uno o más roles.</small>
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$userToEdit->phone}}" autocomplete="new-phone">
+                    <div class="form-group row">
+                        <label for="phone" class="col-md-4 col-form-label text-md-right">Teléfono</label>
 
-                                    @error('phone')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <input id="phone"
+                                type="text"
+                                name="phone"
+                                class="form-control @error('phone') is-invalid @enderror"
+                                value="{{ old('phone', $userToEdit->phone) }}"
+                                autocomplete="tel"
+                                pattern="\d{10}"
+                                maxlength="10"
+                                placeholder="Ej. 5512345678">
 
-                            <div class="form-group row">
-                                <label for="contact_name" class="col-md-4 col-form-label text-md-right">Nombre del contacto</label>
+                            @error('phone')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <input id="contact_name" type="text" class="form-control @error('contact_name') is-invalid @enderror" name="contact_name" value="{{ $userToEdit->contact_name }}" autocomplete="new-contact_name">
+                    <div class="form-group row">
+                        <label for="contact_name" class="col-md-4 col-form-label text-md-right">Nombre del contacto</label>
 
-                                    @error('contact_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <input id="contact_name"
+                                type="text"
+                                name="contact_name"
+                                class="form-control @error('contact_name') is-invalid @enderror"
+                                value="{{ old('contact_name', $userToEdit->contact_name) }}"
+                                autocomplete="name">
 
-                            <div class="form-group row">
-                                <label for="contact_phone" class="col-md-4 col-form-label text-md-right">Teléfono de contacto</label>
+                            @error('contact_name')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <input id="contact_phone" type="text" class="form-control @error('contact_phone') is-invalid @enderror" name="contact_phone" value="{{ $userToEdit->contact_phone }}" autocomplete="new-contact_phone">
+                    <div class="form-group row">
+                        <label for="contact_phone" class="col-md-4 col-form-label text-md-right">Teléfono de contacto</label>
 
-                                    @error('contact_phone')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <input id="contact_phone"
+                                type="text"
+                                name="contact_phone"
+                                class="form-control @error('contact_phone') is-invalid @enderror"
+                                value="{{ old('contact_phone', $userToEdit->contact_phone) }}"
+                                autocomplete="tel"
+                                pattern="\d{10}"
+                                maxlength="10"
+                                placeholder="Ej. 5512345678">
 
-                            <div class="form-group row">
-                                <label for="address" class="col-md-4 col-form-label text-md-right">Dirección</label>
+                            @error('contact_phone')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $userToEdit->address }}" autocomplete="new-address">
+                    <div class="form-group row">
+                        <label for="address" class="col-md-4 col-form-label text-md-right">Dirección</label>
 
-                                    @error('address')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <input id="address"
+                                type="text"
+                                name="address"
+                                class="form-control @error('address') is-invalid @enderror"
+                                value="{{ old('address', $userToEdit->address) }}"
+                                autocomplete="street-address"
+                                placeholder="Calle, número, colonia, ciudad">
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Actualizar
-                                    </button>
-                                    <a href="{{route('users.index')}}" class="btn btn-link">Regresar</a>
-                                </div>
-                            </div>
-                        </form>
+                            @error('address')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-0">
+                        <div class="col-md-6 offset-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                Actualizar
+                            </button>
+                            <a href="{{route('users.index')}}" class="btn btn-link">Regresar</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -205,6 +259,8 @@
 
 @push('scripts')
 <script>
-    new Vue({el: '#app'})
+    new Vue({
+        el: '#app'
+    })
 </script>
 @endpush

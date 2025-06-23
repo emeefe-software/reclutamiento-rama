@@ -201,6 +201,73 @@ class UserController extends Controller
         ]);
     }
 
+    /*
+     * Show the form for editing the profile of the authenticated user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editProfile()
+    {
+        $user = Auth::user();
+
+        return view('profile.edit', [
+            'authenticatedUser' => $user,
+            'userToEdit' => $user,
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+        $validator = Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()],
+            'pin' => ['nullable', 'string', 'min:4', 'max:10'],
+            'phone' => ['required', 'string', 'min:10', 'max:10'],
+            'address' => ['required', 'string'],
+            'contact_name' => ['nullable', 'string'],
+            'contact_phone' => ['nullable', 'string'],
+
+        ], [
+            'first_name.required' => 'El campo nombre es requerido',
+            'last_name.required' => 'El campo apellido es requerido',
+            'email.required' => 'El campo email es requerido',
+            'email.unique' => 'El email ya se registró',
+            'pin.min' => 'El PIN debe tener al menos :min caracteres.',
+            'pin.max' => 'El PIN no debe exceder de :max caracteres.',
+            'phone.required' => 'El campo teléfono es requerido',
+            'phone.min' => 'El teléfono debe tener al menos :min caracteres.',
+            'phone.max' => 'El teléfono no debe exceder de :max caracteres.',
+            'address.required' => 'El campo dirección es requerido',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $user->update($request->only([
+                'first_name',
+                'last_name',
+                'email',
+                'pin',
+                'phone',
+                'contact_name',
+                'contact_phone',
+                'address'
+            ]));
+            DB::commit();
+            return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente.');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Hubo un error al actualizar. Intenta de nuevo.');
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -210,7 +277,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $this->validator($request->only(['first_name', 'last_name', 'password', 'email', 'pin', 'area']));
+        $valido =   $this->validator($request->only(['first_name', 'last_name', 'password', 'email', 'pin', 'area']));
+
+        if ($valido->fails()) {
+            return redirect()->back()->withErrors($valido)->withInput();
+        }
 
         DB::beginTransaction();
         try {
