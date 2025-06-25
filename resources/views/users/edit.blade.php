@@ -151,7 +151,7 @@
                             <select multiple class="form-control" name="rol[]">
                                 @foreach($roles as $rol)
                                 <option value="<?php echo $rol->id ?>" {{in_array($rol->id, $userToEdit->roles()->pluck('id')->toArray()) ? 'selected="selected"': null}}> <?php echo $rol->display_name ?></option>
-                                @endforeach>
+                                @endforeach
                             </select>
                             <small id="rol-help" class="form-text text-muted">Puedes asignar uno o más roles.</small>
                         </div>
@@ -241,6 +241,12 @@
                         </div>
                     </div>
 
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
                             <button type="submit" class="btn btn-primary">
@@ -259,8 +265,24 @@
 
 @push('scripts')
 <script>
-    new Vue({
-        el: '#app'
-    })
+    window.addEventListener('load', function() {
+        @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: @json(session('success')),
+            confirmButtonColor: '#3085d6',
+        });
+        @endif
+
+        @if(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: @json(session('error')),
+            confirmButtonColor: '#d33',
+        });
+        @endif
+    });
 </script>
 @endpush

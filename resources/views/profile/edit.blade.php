@@ -169,28 +169,26 @@
 </div>
 @endsection
 
-@if(session('success'))
+@push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        Swal.fire({
-            icon: 'success',
-            title: '¡Éxito!',
-            text: '{{ session('success') }}',
-            confirmButtonColor: '#3085d6',
-        });
-    });
-</script>
-@endif
+    window.addEventListener('load', function () {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: @json(session('success')),
+                confirmButtonColor: '#3085d6',
+            });
+        @endif
 
-@if(session('error'))
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        Swal.fire({
-            icon: 'error',
-            title: '¡Error!',
-            text: '{{ session('error') }}',
-            confirmButtonColor: '#d33',
-        });
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: @json(session('error')),
+                confirmButtonColor: '#d33',
+            });
+        @endif
     });
 </script>
-@endif
+@endpush

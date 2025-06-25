@@ -13,29 +13,6 @@ use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
 {
-    private function validator(array $data)
-    {
-        return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'pin' => ['nullable', 'unique:users,pin', 'string', 'min:4', 'max:4'],
-            'rol' => ['required'],
-            'area' => ['required'],
-        ], [
-            'first_name.required' => 'El campo nombre es requerido',
-            'last_name.required' => 'El campo apellido es requerido',
-            'email.required' => 'El campo email es requerido',
-            'email.unique' => 'El email ya se registró',
-            'password.required' => 'El campo contraseña es requerido',
-            'password.min' => 'La contraseña tener mínimo 8 caracteres',
-            'pin.required' => 'El campo PIN es requerido',
-            'pin.unique' => 'El pin ya se registró',
-            'rol.required' => 'El campo rol es requerido',
-            'area.required' => 'El campo área es requerido',
-        ]);
-    }
 
     /**
      * Display a listing of the resource.
@@ -223,7 +200,7 @@ class UserController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()],
-            'pin' => ['nullable', 'string', 'min:4', 'max:10'],
+            'pin' => ['nullable', 'string', 'min:4', 'max:4'],
             'phone' => ['required', 'string', 'min:10', 'max:10'],
             'address' => ['required', 'string'],
             'contact_name' => ['nullable', 'string'],
@@ -277,7 +254,32 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $valido =   $this->validator($request->only(['first_name', 'last_name', 'password', 'email', 'pin', 'area']));
+        $valido = Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'pin' => ['nullable', 'unique:users,pin', 'string', 'min:4', 'max:4'],
+            'rol' => ['required'],
+            'area' => ['required'],
+            'phone' => ['required', 'string', 'min:10', 'max:10'],
+            'address' => ['required', 'string'],
+            'contact_name' => ['nullable', 'string'],
+            'contact_phone' => ['nullable', 'string', 'min:10', 'max:10'],
+        ], [
+            'first_name.required' => 'El campo nombre es requerido',
+            'last_name.required' => 'El campo apellido es requerido',
+            'email.required' => 'El campo email es requerido',
+            'email.unique' => 'El email ya se registró',
+            'rol.required' => 'El campo rol es requerido',
+            'area.required' => 'El campo área es requerido',
+            'pin.min' => 'El PIN debe tener al menos :min caracteres.',
+            'pin.max' => 'El PIN no debe exceder de :max caracteres.',
+            'phone.required' => 'El campo teléfono es requerido',
+            'phone.min' => 'El teléfono debe tener al menos :min caracteres.',
+            'phone.max' => 'El teléfono no debe exceder de :max caracteres.',
+            'contact_phone.min' => 'El teléfono debe tener al menos :min caracteres.',
+            'contact_phone.max' => 'El teléfono no debe exceder de :max caracteres.',
+        ]);
 
         if ($valido->fails()) {
             return redirect()->back()->withErrors($valido)->withInput();
@@ -290,19 +292,24 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->pin = $request->pin;
             $user->area = $request->area;
-            $user->phone = $request->has('phone') ? $request->phone : null;
-            $user->contact_name = $request->has('contact_name') ? $request->contact_name : null;
-            $user->contact_phone = $request->has('contact_phone') ? $request->contact_phone : null;
-            $user->address = $request->has('address') ? $request->address : null;
-            $user->update();
+            $user->phone = $request->phone ?? null;
+            $user->contact_name = $request->contact_name ?? null;
+            $user->contact_phone = $request->contact_phone ?? null;
+            $user->address = $request->address ?? null;
+            $user->save(); // puedes usar save() también
 
             $user->syncRoles($request->rol);
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollback();
-        }
 
-        return redirect()->route('users.index');
+            DB::commit();
+
+            return back()->with('success', 'Usuario actualizado correctamente');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return redirect()->back()
+                ->with('error', 'Ocurrió un error al guardar: ' . $th->getMessage())
+                ->withInput();
+        }
     }
 
     /**
