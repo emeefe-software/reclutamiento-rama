@@ -139,7 +139,6 @@ $user = Auth::user();
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('js/frontend/plugins/custom.min.js') }}"></script>
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/0045a7366e.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @include('sweet::alert')

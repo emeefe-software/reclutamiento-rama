@@ -144,15 +144,15 @@ $statusActivos = 'checked';
                         <a href="{{route('users.edit', ['user'=>$listedUser])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar usuario">
                             <i class="fa fa-edit"></i>
                         </a>
-                        @if(!$listedUser->hasRole(App\Role::ROLE_ADMIN))
-                        <form class="d-inline" id="formUserDelete{{ $listedUser->id }}" action="{{route('users.destroy',$listedUser)}}" method="POST">
+                         @if(!$listedUser->hasRole(App\Role::ROLE_ADMIN))
+                            <form class="d-inline" id="formUserDelete{{ $listedUser->id }}" action="{{route('users.destroy',$listedUser)}}" method="POST">
                             {{ method_field('DELETE')}}
                             {{ csrf_field()}}
                             <button type="submit" onclick="eliminaUsuario(event, {{ $listedUser->id }})" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar usuario">
                                 <i class="fa fa-remove"></i>
                             </button>
-                        </form>
-                        @endif
+                             </form>
+                         @endif
                         @endif
                     </td>
                 </tr>
