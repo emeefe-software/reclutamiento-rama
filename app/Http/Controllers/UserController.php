@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\User;
 use App\Role;
+use App\Interview;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use App\Note;
+use App\Record;
 
 class UserController extends Controller
 {
@@ -355,6 +358,33 @@ class UserController extends Controller
         return redirect()->route('users.edit', [
             'user' => $user,
             'roles' => Role::all(),
+        ]);
+    }
+
+    public function showHistorial(User $user)
+    {
+        $interview = Interview::where('user_id', $user->id)->first();
+
+        if ($interview) {
+            $notes = Note::where('anotable_id', $interview->id)
+                ->orderBy('created_at', 'DESC')
+                ->get();
+
+            $records = Record::where('model_id', $interview->id)
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        } else {
+            // Si no hay entrevista, mandamos colecciones vacías
+            $notes = collect();
+            $records = collect();
+        }
+
+        return view('users.historial', [
+            'authenticatedUser' => Auth::user(),
+            'user' => $user,
+            'interview' => $interview,
+            'notes' => $notes,
+            'records' => $records,
         ]);
     }
 }

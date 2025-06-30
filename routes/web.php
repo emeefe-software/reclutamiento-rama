@@ -60,6 +60,8 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::post('users/registers', 'RegisterController@store')->name('users.registers.store');
     Route::delete('users/registers/destroy/{id}', 'RegisterController@destroy')->name('users.registers.destroy');
     Route::put('users/registers/{id}', 'RegisterController@update')->name('users.registers.update');
+    Route::get('users/{user}/historial', 'UserController@showHistorial')->name('users.historial');
+
 
     Route::put('users/{user}/activate', 'UserController@activate')->name('users.activate');
     Route::put('users/{user}/lock', 'UserController@lock')->name('users.lock');

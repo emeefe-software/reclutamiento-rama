@@ -137,6 +137,9 @@ $statusActivos = 'checked';
                         <a href="{{route('users.registers.index', ['user'=>$listedUser])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Horarios registrados">
                             <i class="fas fa-clock"></i>
                         </a>
+                        <a href="{{ route('users.historial',['user'=>$listedUser]) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Historial de entrevista">
+                            <i class="fas fa-file-alt"></i>
+                        </a>
                         @endif
                         <a href="{{route('users.edit', ['user'=>$listedUser])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar usuario">
                             <i class="fa fa-edit"></i>
@@ -159,14 +162,13 @@ $statusActivos = 'checked';
     </div>
 </div>
 @endsection
-
 @push('scripts')
 <script>
     const app = new Vue({
         el: '#app'
     })
 </script>
-//Filtrado de usuarios por nombre
+<!-- Filtrado de usuarios por nombre -->
 <script src="{{ asset('js/frontend/pages/searchUser.js') }}"></script>
 <!-- mensaje de confirmacion para eliminar un Usuario -->
 <script src="{{ asset('js/backend/pages/confirm_delete_user.js') }}"></script>

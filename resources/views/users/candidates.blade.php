@@ -90,6 +90,6 @@
 @endsection
 
 @push('scripts')
-//Filtrado de usuarios por nombre
+<!-- Filtrado de usuarios por nombre -->
 <script src="{{ asset('js/frontend/pages/searchUser.js') }}"></script>
 @endpush

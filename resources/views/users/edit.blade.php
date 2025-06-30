@@ -150,7 +150,9 @@
                         <div class="col-md-6">
                             <select multiple class="form-control" name="rol[]">
                                 @foreach($roles as $rol)
-                                <option value="<?php echo $rol->id ?>" {{in_array($rol->id, $userToEdit->roles()->pluck('id')->toArray()) ? 'selected="selected"': null}}> <?php echo $rol->display_name ?></option>
+                                    @if (($rol->id !== 4))
+                                     <option value="<?php echo $rol->id ?>" {{in_array($rol->id, $userToEdit->roles()->pluck('id')->toArray()) ? 'selected="selected"': null}}> <?php echo $rol->display_name ?></option>
+                                    @endif
                                 @endforeach
                             </select>
                             <small id="rol-help" class="form-text text-muted">Puedes asignar uno o más roles.</small>
@@ -180,7 +182,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="contact_name" class="col-md-4 col-form-label text-md-right">Nombre del contacto</label>
+                        <label for="contact_name" class="col-md-4 col-form-label text-md-right">Nombre de contacto de emergencia</label>
 
                         <div class="col-md-6">
                             <input id="contact_name"
@@ -199,7 +201,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="contact_phone" class="col-md-4 col-form-label text-md-right">Teléfono de contacto</label>
+                        <label for="contact_phone" class="col-md-4 col-form-label text-md-right">Teléfono de contacto de emergencia</label>
 
                         <div class="col-md-6">
                             <input id="contact_phone"
@@ -221,17 +223,17 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="address" class="col-md-4 col-form-label text-md-right">Dirección</label>
+                        <label for="address" class="col-md-4 col-form-label text-md-right">Dirección *</label>
 
                         <div class="col-md-6">
                             <input id="address"
+                                required
                                 type="text"
                                 name="address"
                                 class="form-control @error('address') is-invalid @enderror"
                                 value="{{ old('address', $userToEdit->address) }}"
                                 autocomplete="street-address"
                                 placeholder="Calle, número, colonia, ciudad">
-
                             @error('address')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
