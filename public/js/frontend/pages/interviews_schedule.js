@@ -175,24 +175,24 @@ const app = new Vue({
                         let html = document.createElement("ul")
                         html.innerHTML = htmlResponse
 
-                        swal({
-                            content: html,
-                            icon: 'error',
-                            title: 'Ocurrieron los siguientes errores'
+                        Swal.fire({
+                            title: 'Ocurrieron los siguientes errores',
+                            html: html,
+                            icon: 'error'
                         })
 
                         return
                     }
 
                     if (error.response && error.response.data && error.response.data.msg) {
-                        swal({
+                        Swal.fire({
                             text: error.response.data.msg,
-                            icon: 'error',
+                            icon: 'error'
                         })
                         return
                     }
 
-                    swal({
+                    Swal.fire({
                         text: 'Ocurrió un error',
                         icon: 'error',
                     })

@@ -324,7 +324,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')->with('alert', 'Se elimino el usuario');
+        return redirect()->route('users.index')->with('alert', 'Se eliminó el usuario correctamente');
     }
 
     public function activate(User $user)

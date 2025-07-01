@@ -98,6 +98,6 @@ class CareerController extends Controller
     public function destroy(Career $career)
     {
         $career->delete();
-        return redirect()->route('careers.index');
+        return redirect()->route('careers.index')->with('alert', 'Se eliminó la carrera correctamente');
     }
 }

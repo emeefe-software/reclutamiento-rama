@@ -1,48 +1,23 @@
-function eliminaCarrera(e, careerID){
+function eliminaCarrera(e, careerID) {
     e.preventDefault();
     console.log(careerID);
-    swal({
-        title: "Atencion!!!",
+    Swal.fire({
+        title: "Atención",
         text: "¿Realmente deseas eliminar la Carrera?",
         icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-    .then((willDelete) => {
-        if (willDelete) {
-            $('#formCareerDelete' + careerID).submit();
-            // axios.delete('careers/destroy', {
-            //     params : career,
-            // })
-            // .then(response => {
-            //     swal("Carrera eliminada correctamente", {
-            //         icon: "success",
-            //     });
-            // })
-            // .catch(e => {
-            //     swal("Error al eliminar la carrera", {
-            //         text : e,
-            //         icon: "warning",
-            //     });
-            // });
-            // $.ajax({
-            //     route: urlDestroyCareer,
-            //     type: 'DELETE',
-            //     data: career,
-            //     dataType: 'JSON',
-            //     error: function(e) {
-            //         swal("Error al eliminar la carrera", {
-            //             title: e.statusText,
-            //             icon: "warning",
-            //         });
-            //     },
-            //     success: function(respuesta) {
-            //         swal("Carrera eliminada correctamente", {
-            //             icon: "success",
-            //         });
-            //         location.reload();
-            //     }
-            // });
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-secondary"
+        },
+        buttonsStyling: false
+    }).then(willDelete => {
+        if (willDelete.isConfirmed) {
+            $("#formCareerDelete" + careerID).submit();
         }
     });
 }
