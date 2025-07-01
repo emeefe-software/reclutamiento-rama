@@ -134,17 +134,17 @@ $statusActivos = 'checked';
                     <td class="column-title no-link last">
                         @if(Auth::user()->hasRole(App\Role::ROLE_ADMIN))
                         @if($listedUser->hasRole(App\Role::ROLE_PRACTICING))
-                        <a href="{{route('users.registers.index', ['user'=>$listedUser])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Horarios registrados">
+                        <a href="{{route('users.registers.index', ['user'=>$listedUser])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Horarios registrados">
                             <i class="fas fa-clock"></i>
                         </a>
                         <a href="{{ route('users.historial',['user'=>$listedUser]) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Historial de entrevista">
                             <i class="fas fa-file-alt"></i>
                         </a>
                         @endif
-                        <a href="{{route('users.edit', ['user'=>$listedUser])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar usuario">
+                        <a href="{{route('users.edit', ['user'=>$listedUser])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Editar usuario">
                             <i class="fa fa-edit"></i>
                         </a>
-                        @if(!$listedUser->hasRole(App\Role::ROLE_ADMIN))
+                      <!-- @if(!$listedUser->hasRole(App\Role::ROLE_ADMIN))
                         <form class="d-inline" id="formUserDelete{{ $listedUser->id }}" action="{{route('users.destroy',$listedUser)}}" method="POST">
                             {{ method_field('DELETE')}}
                             {{ csrf_field()}}
@@ -152,7 +152,7 @@ $statusActivos = 'checked';
                                 <i class="fa fa-remove"></i>
                             </button>
                         </form>
-                        @endif
+                        @endif -->
                         @endif
                     </td>
                 </tr>
