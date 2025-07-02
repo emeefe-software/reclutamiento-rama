@@ -42,6 +42,7 @@ Route::middleware('role:admin|responsable')->group(function () {
 Route::middleware('role:practicing')->group(function () {
     Route::get('profile/edit', 'UserController@editProfile')->name('profile.edit');
     Route::put('profile/update', 'UserController@updateProfile')->name('profile.update');
+    Route::get( 'welcome','UserController@welcome')->name('welcome');
 });
 
 

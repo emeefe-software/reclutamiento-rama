@@ -24,7 +24,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'password','first_name','last_name','email','pin','phone','contact_name','contact_phone','address','area','skype'
+        'password',
+        'first_name',
+        'last_name',
+        'email',
+        'pin',
+        'phone',
+        'contact_name',
+        'contact_phone',
+        'address',
+        'area',
+        'skype'
     ];
 
     /**
@@ -33,7 +43,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -45,61 +56,84 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function registers(){
+    public function registers()
+    {
         return $this->hasMany('App\Register');
     }
 
-    public function food_registers(){
+    public function food_registers()
+    {
         return $this->hasMany('App\FoodRegister');
     }
 
-    public function hours(){
-        return $this->belongsToMany(Hour::class,'hour_user');
+    public function hours()
+    {
+        return $this->belongsToMany(Hour::class, 'hour_user');
     }
 
-    public function fullname(){
-        return $this->first_name.' '.$this->last_name;
+    public function fullname()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function interview(){
+    public function interview()
+    {
         return $this->hasOne(Interview::class);
     }
 
-    public static function getResponsibles(){
-        $responsibles=[];
-        $users=User::all();
-        foreach($users as $user){ 
-            if($user->hasRole('responsable'))
-                $responsibles[]=$user;
+    public static function getResponsibles()
+    {
+        $responsibles = [];
+        $users = User::all();
+        foreach ($users as $user) {
+            if ($user->hasRole('responsable'))
+                $responsibles[] = $user;
         }
         return $responsibles;
     }
-    
-    public static function getNotCandidates(){
-        $notCandidates=[];
-        $users=User::all();
-        foreach($users as $user){ 
-            if(!$user->hasRole('candidate'))
-                $notCandidates[]=$user;
+
+    public static function getNotCandidates()
+    {
+        $notCandidates = [];
+        $users = User::all();
+        foreach ($users as $user) {
+            if (!$user->hasRole('candidate'))
+                $notCandidates[] = $user;
         }
         return $notCandidates;
     }
 
-    public static function getCandidates(){
+    public static function getCandidates()
+    {
         return User::whereRoleIs(Role::ROLE_CANDIDATE)->with('interview')->get();
     }
-    
-    public function scopeCandidates($query){
+
+    public function scopeCandidates($query)
+    {
         return $query->whereRoleIs(Role::ROLE_CANDIDATE);
     }
 
-    public function scopeNoCandidates($query){
-        return $query->whereDoesntHave('roles', function($query){
+    public function scopeNoCandidates($query)
+    {
+        return $query->whereDoesntHave('roles', function ($query) {
             $query->where('name', Role::ROLE_CANDIDATE);
         });
     }
 
-    public function scopeByStatus($query, $statusType){
+    public function scopeByStatus($query, $statusType)
+    {
         return $query->where('status', $statusType);
+    }
+
+    public static function getTeam()
+    {
+        return User::where('status', User::STATUS_ACTIVE)
+            ->where(function ($query) {
+                $query->whereHas('roles', function ($q) {
+                    $q->where('name', 'responsable')
+                        ->orWhere('name', 'admin');
+                });
+            })
+            ->get();
     }
 }

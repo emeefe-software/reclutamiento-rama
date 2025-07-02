@@ -387,4 +387,17 @@ class UserController extends Controller
             'records' => $records,
         ]);
     }
+    public function welcome()
+    {
+        $team = User::getTeam();
+        $user = Auth::user();
+        if ($user->hasRole(Role::ROLE_PRACTICING)) {
+            return view('practicing.introduction', [
+                'authenticatedUser' => $user,
+                'team' => $team,
+            ]);
+        } else {
+            return redirect()->route('dashboard.home');
+        }
+    }
 }

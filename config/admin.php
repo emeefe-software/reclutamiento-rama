@@ -15,11 +15,12 @@ return [
         [
             'title' => 'Usuarios',
             'icon' => 'fa fa-users',
-            'roles' => [App\Role::ROLE_ADMIN],
+            'roles' => [App\Role::ROLE_ADMIN, App\Role::ROLE_RESPONSABLE],
             'submenu' => [
                 [
                     'title' => 'Ver usuarios',
-                    'route_name' => 'users.index'
+                    'route_name' => 'users.index',
+                    'roles' => [App\Role::ROLE_ADMIN],
                 ],
                 [
                     'title' => 'Ver candidatos',
@@ -27,15 +28,10 @@ return [
                 ],
                 [
                     'title' => 'Registrar Usuario',
-                    'route_name' => 'users.create'
+                    'route_name' => 'users.create',
+                    'roles' => [App\Role::ROLE_ADMIN],
                 ],
             ]
-        ],
-        [
-            'title' => 'Candidatos',
-            'icon' => 'fa fa-users',
-            'roles' => [App\Role::ROLE_RESPONSABLE],
-            'route_name' => 'candidates'
         ],
         [
             'title' => 'Universidades',
@@ -119,6 +115,12 @@ return [
             'route_name' => 'settings'
         ],
         [
+            'title' => 'Bienvenida',
+            'icon' => 'fas fa-handshake',
+            'roles' => [App\Role::ROLE_PRACTICING],
+            'route_name' => 'welcome',
+        ],
+        [
             'title' => 'Mi Perfil',
             'icon' => 'fas fa-user-circle',
             'roles' => [App\Role::ROLE_PRACTICING, App\Role::ROLE_CANDIDATE],
@@ -129,12 +131,6 @@ return [
             'icon' => 'fas fa-calendar-alt',
             'roles' => [App\Role::ROLE_PRACTICING],
             'route_name' => 'user.hours',
-        ],
-        [
-            'title' => 'Registrar Horario',
-            'icon' => 'fas fa-plus-circle',
-            'roles' => [App\Role::ROLE_PRACTICING],
-            'route_name' => 'hours.create',
         ],
     ],
 
