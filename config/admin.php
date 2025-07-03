@@ -130,7 +130,7 @@ return [
             'title' => 'Ver Horarios',
             'icon' => 'fas fa-calendar-alt',
             'roles' => [App\Role::ROLE_PRACTICING],
-            'route_name' => 'user.hours',
+            'route_name' => 'practicing.hours',
         ],
     ],
 

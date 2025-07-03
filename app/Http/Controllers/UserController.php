@@ -203,7 +203,7 @@ class UserController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()],
-            'pin' => ['nullable', 'unique:users,pin', 'string', 'min:4', 'max:4'. auth()->id()],
+            'pin' => ['nullable','string', 'min:4', 'max:4','unique:users,pin,' . auth()->id()],
             'phone' => ['required', 'string', 'min:10', 'max:10'],
             'address' => ['required', 'string'],
             'contact_name' => ['nullable', 'string'],

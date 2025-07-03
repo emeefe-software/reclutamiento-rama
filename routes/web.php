@@ -39,10 +39,11 @@ Route::middleware('role:admin|responsable')->group(function () {
 });
 
 //Rutas para practicantes
-Route::middleware('role:practicing')->group(function () {
+Route::prefix('practicing')->middleware('role:practicing')->group(function () {
+    Route::get('hour', 'RegisterController@showPracticing')->name('practicing.hours');
     Route::get('profile/edit', 'UserController@editProfile')->name('profile.edit');
     Route::put('profile/update', 'UserController@updateProfile')->name('profile.update');
-    Route::get( 'welcome','UserController@welcome')->name('welcome');
+    Route::get('welcome', 'UserController@welcome')->name('welcome');
 });
 
 
@@ -56,7 +57,7 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::post('programs/asociate/delete', 'ProgramController@asociateDestroy')->name('programs.asociate.destroy');
     Route::put('programs/{program}/paused', 'ProgramController@isPaused')->name('programs.ispaused');
     Route::post('notes/create', 'NoteController@store')->name('notes.create');
-    //registros de usuario
+    //registros de horarios de usuario
     Route::get('users/{user}/registers', 'RegisterController@index')->name('users.registers.index');
     Route::post('users/registers', 'RegisterController@store')->name('users.registers.store');
     Route::delete('users/registers/destroy/{id}', 'RegisterController@destroy')->name('users.registers.destroy');
@@ -77,9 +78,6 @@ Route::prefix('responsable')->middleware('role:responsable|admin')->group(functi
     Route::post('interviews', 'InterviewController@storeManual')->name('agendarResponsable');
 });
 
-Route::prefix('practicing')->middleware('role:practicing')->group(function () {
-    Route::get('hours', 'HoursController@hours')->name('user.hours');
-});
 
 Route::post('check', 'RegisterController@check')->name('check');
 Route::post('food', 'FoodController@food')->name('food');
