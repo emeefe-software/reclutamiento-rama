@@ -35,12 +35,15 @@
         el: '#app'
     })
 
+    var registers = @json($registers);
+
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
-            locale: 'es', // Opcional: para mostrarlo en español
+            locale: 'es',
+            timeZone: 'America/Mexico_City',
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -51,14 +54,12 @@
                 month: 'Mes',
             },
             selectable: true,
-            events: [
-                // Aquí puedes cargar eventos estáticos o vía AJAX
-                {
-                    title: 'Mi horario de prueba',
-                    start: '2025-06-25',
-                    description: 'Ejemplo'
-                }
-            ],
+            eventTimeFormat: { // Esto personaliza el formato de la hora
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false
+            },
+            events: registers,
         });
 
         calendar.render();

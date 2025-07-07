@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Interview;
 use App\Role;
 use Auth;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -50,20 +51,41 @@ class HomeController extends Controller
             ]);
         }
 
-        if($authenticatedUser->hasRole(Role::ROLE_PRACTICING)) {
+        if ($authenticatedUser->hasRole(Role::ROLE_PRACTICING)) {
+            $user = auth()->user();
+            $registers = $user->registers()->whereNotNull('start_at')->orderBy('start_at')->get(['start_at', 'end_at']);
+            $events = [];
+
+            foreach ($registers as $reg) {
+                // Evento de entrada
+                $events[] = [
+                    'title' => 'Entrada',
+                    'start' => $reg->start_at->toIso8601String(),
+                ];
+
+                // Evento de salida (solo si existe)
+                if ($reg->end_at) {
+                    $events[] = [
+                        'title' => 'Salida',
+                        'start' => $reg->end_at->toIso8601String(),
+                    ];
+                }
+            }
+            
             $rol = 'Practicing';
             return view('dashboard.welcome', [
                 'authenticatedUser' => $authenticatedUser,
                 'rol' => $rol,
+                'registers' => $events,
             ]);
-        }   
+        }
 
-        if($authenticatedUser->hasRole(Role::ROLE_CANDIDATE)) {
+        if ($authenticatedUser->hasRole(Role::ROLE_CANDIDATE)) {
             $rol = 'Candidate';
             return view('dashboard.welcome', [
                 'authenticatedUser' => $authenticatedUser,
                 'rol' => $rol,
             ]);
-        }   
+        }
     }
 }
