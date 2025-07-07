@@ -19,18 +19,18 @@
 
         <br><br>Si deseas eliminar/editar una asociación de un programa con un responsable puedes encontrar las acciones en la columna <b>Asociaciones</b>
     </p>
-    <a href="{{route('programs.create')}}">
+    <div class=>
+        <a href="{{route('programs.create')}}">
         <button type="button" class="btn btn-info">Agregar Programa</button>
-    </a>
+        </a>
+        <a href="{{route('programs.asociate')}}">
+                <button type="button" class="btn btn-secondary">Asociar programa</button>
+        </a>
+    </div>
 @endsection
 
 @section('content')
     <div class="card">
-        <div class="card-header">
-            <a href="{{route('programs.asociate')}}">
-                <button type="button" class="btn btn-secondary">Asociar programa</button>
-            </a>
-        </div>
         
         <div class="card-body">
             @if($programs->isEmpty())

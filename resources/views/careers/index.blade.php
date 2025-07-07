@@ -9,17 +9,22 @@
     Listado de carreras que pueden aplicar a nuestros programas de práctica profesional, los nombres deben ser genéricos para que los usuarios puedan seleccionar la carrera a fin a la suya.
     <br><br>Una vez tengas carreras puedes crear programas asociados.
 </p>
+<div>
+    <a href="{{route('careers.create')}}">
+        <button type="button" class="btn btn-info">Agregar Carrera</button>
+    </a>
+</div>
 @endsection
 
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a href="{{route('careers.create')}}">
-            <button type="button" class="btn btn-info">Agregar Carrera</button>
-        </a>
+        <div class="form-group mb-0 mr-3 flex-grow-1">
+            <input type="text" class="form-control" id="search" placeholder="Buscar por nombre">
+        </div>
     </div>
     <div class="card-body">
-        <table class="table table-striped jambo_table bulk_action table-sm">
+        <table class="table table-striped jambo_table bulk_action table-sm" id="items-table">
             <thead>
                 <tr class="headings">
                     <th scope="col">Nombre</th>
@@ -82,6 +87,7 @@
 @push('scripts')
 <!-- mensaje de confirmacion para eliminar una Carrera -->
 <script src="{{ asset('js/backend/pages/confirm_delete_career.js') }}"></script>
+<script src="{{asset('js/frontend/pages/searchName.js')}}"></script>
 <script>
     window.addEventListener('load', function() {
         @if(session('alert'))
