@@ -11,14 +11,15 @@ use Illuminate\Support\Facades\Validator;
 
 class HourController extends Controller
 {
-    private function validator(array $data){
-        return Validator::make($data,[
+    private function validator(array $data)
+    {
+        return Validator::make($data, [
             'date' => ['required'],
             'time' => ['required'],
             'end_time' => ['required'],
             'responsibleCheck' => ['required'],
             'typeRadio' => ['required'],
-        ],[
+        ], [
             'date.required' => 'El campo fecha es requerido',
             'time.required' => 'El campo hora es requerido',
             'end_time.required' => 'El campo hora de finalización es requerido',
@@ -27,21 +28,28 @@ class HourController extends Controller
         ]);
     }
 
-    public function index(){
-        return view('hours.index',[
-            'hours'=>Hour::greaterThanNow()->orderBy('datetime')->get()
+    public function index()
+    {
+        $responsables = User::whereHas('hours', function ($query) {
+            $query->where('datetime', '>', now());
+        })
+            ->selectRaw("CONCAT(first_name, ' ', last_name) as full_name")
+            ->pluck('full_name');
+        return view('hours.index', [
+            'hours' => Hour::greaterThanNow()->orderBy('datetime')->get(),
+            'responsables' => $responsables
         ]);
     }
 
-/**
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('hours.register',[
-            'responsibles'=> User::getResponsibles(),
+        return view('hours.register', [
+            'responsibles' => User::getResponsibles(),
         ]);
     }
 
@@ -57,60 +65,60 @@ class HourController extends Controller
 
         DB::beginTransaction();
         try {
-            $type = $request->typeRadio==0 ? 'simultaneous' : 'unique';
-            $startDate = Carbon::createFromFormat('Y-m-d H:i', $request->date.' '.$request->time);
-            $endDate = Carbon::createFromFormat('Y-m-d H:i', $request->end_date.' '.$request->end_time);
+            $type = $request->typeRadio == 0 ? 'simultaneous' : 'unique';
+            $startDate = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
+            $endDate = Carbon::createFromFormat('Y-m-d H:i', $request->end_date . ' ' . $request->end_time);
             $errors = [];
 
-            while($startDate->lessThan($endDate)){
-                $endInSameDay = Carbon::createFromFormat('Y-m-d H:i', $startDate->format('Y-m-d').' '.$request->end_time);
+            while ($startDate->lessThan($endDate)) {
+                $endInSameDay = Carbon::createFromFormat('Y-m-d H:i', $startDate->format('Y-m-d') . ' ' . $request->end_time);
                 $hasConflicts = Hour::conflicts(
                     $startDate,
                     $endInSameDay,
                     $type
                 )->exists();
-    
-                if($hasConflicts){
-                    $errors[] = 'Hay conflictos con el horario '.$startDate->format('Y-m-d H:i').' - '.$endInSameDay->format('Y-m-d H:i');
+
+                if ($hasConflicts) {
+                    $errors[] = 'Hay conflictos con el horario ' . $startDate->format('Y-m-d H:i') . ' - ' . $endInSameDay->format('Y-m-d H:i');
                     $startDate->addDay();
                     continue;
                 }
-                
-                foreach($request->responsibleCheck as $responsibleId){
-                    
+
+                foreach ($request->responsibleCheck as $responsibleId) {
+
                     $user = User::find($responsibleId);
-    
-                    if(!$hasConflicts){
+
+                    if (!$hasConflicts) {
                         $hour = Hour::firstOrCreate([
-                            'datetime'=>$startDate->format('Y-m-d H:i:s'),
-                            'end_datetime'=>$endInSameDay->format('Y-m-d H:i:s'),
-                            'type'=> $type,
+                            'datetime' => $startDate->format('Y-m-d H:i:s'),
+                            'end_datetime' => $endInSameDay->format('Y-m-d H:i:s'),
+                            'type' => $type,
                         ]);
-    
+
                         try {
                             $user->hours()->attach($hour->id);
                         } catch (\Throwable $th) {
-                            $errors[] = 'Conflicto con '.$user->first_name.', el horario ya está relacionado';
+                            $errors[] = 'Conflicto con ' . $user->first_name . ', el horario ya está relacionado';
                         }
                     }
                 }
 
                 $startDate->addDay();
             }
-    
-            if(count($errors) > 0){
+
+            if (count($errors) > 0) {
                 alert()->warning(implode('<br>', $errors), 'Hubo conflictos')->html()->persistent('Cerrar');
-            }else{
+            } else {
                 alert()->success('Horario(s) guardado(s) corrécatmente');
             }
-            
+
             DB::commit();
-            return redirect()->route('hours.index');   
+            return redirect()->route('hours.index');
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
             alert()->error('Ocurrió un error');
-            return redirect()->back(); 
+            return redirect()->back();
         }
     }
 
@@ -133,9 +141,9 @@ class HourController extends Controller
      */
     public function edit(Hour $user)
     {
-        return view('users.edit',[
-            'user'=>$user
-        ]); 
+        return view('users.edit', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -145,14 +153,14 @@ class HourController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Hour $user)
+    public function update(Request $request, Hour $user)
     {
         $this->validator($request->all());
-        $user->first_name=$request->first_name;
-        $user->last_name=$request->last_name;
-        $user->email=$request->email;
-        $user->pin=$request->pin;
-        $user->area=$request->area;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->pin = $request->pin;
+        $user->area = $request->area;
         $user->update();
         return redirect()->route('users.index');
     }
@@ -166,10 +174,10 @@ class HourController extends Controller
     public function destroy(Request $request, Hour $hour)
     {
         $hour->users()->detach($request->user);
-        if(!$hour->users()->count()){
+        if (!$hour->users()->count()) {
             $hour->delete();
         }
-        
+
         return redirect()->route('hours.index');
     }
 }
