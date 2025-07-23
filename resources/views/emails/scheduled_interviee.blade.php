@@ -49,31 +49,42 @@
 </head>
 
 <body>
-    <div class="container">
-        <h2>Detalles de la Entrevista Agendada</h2>
-        <ul>
-            <li><strong>Candidato:</strong> {{ $candidate->fullname() }}</li>
-            <li><strong>Email:</strong> {{ $candidate->email }}</li>
+    <div class="container" style="font-family: Arial, sans-serif; color: #333;">
+        <h2 style="color: #2c3e50;">¡Tu entrevista ha sido agendada!</h2>
+
+        <p>Hola {{ $candidate->fullname() }},</p>
+
+        <p>Te informamos que tu entrevista ha sido programada exitosamente. A continuación te compartimos los detalles:</p>
+
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li><strong>Nombre del candidato:</strong> {{ $candidate->fullname() }}</li>
+            <li><strong>Email de contacto:</strong> {{ $candidate->email }}</li>
             <li><strong>Carrera:</strong> {{ $career->name }}</li>
-            <li><strong>Gmail:</strong> {{ $candidate->skype }}</li>
+            <li><strong>Correo de Gmail:</strong> {{ $candidate->skype }}</li>
 
             @if($interview->CV)
-            <li><strong>CV:</strong> <a href="{{ url(\Storage::url($interview->CV)) }}" target="_blank" class="button">Descargar CV</a></li>
+            <li><strong>CV:</strong> <a href="{{ url(\Storage::url($interview->CV)) }}" target="_blank" style="color: #2980b9;">Descargar CV</a></li>
             @endif
 
             @if($interview->portfolio)
-            <li><strong>Portafolio:</strong> <a href="{{ url(\Storage::url($interview->portfolio)) }}" target="_blank" class="button">Descargar Portafolio</a></li>
+            <li><strong>Portafolio:</strong> <a href="{{ url(\Storage::url($interview->portfolio)) }}" target="_blank" style="color: #2980b9;">Descargar Portafolio</a></li>
             @endif
 
             <li><strong>Fecha y hora:</strong> {{ $interview->hour()->first()->dateTime() }}</li>
             <li><strong>Programa:</strong> {{ $program->name }}</li>
             <li><strong>Universidad:</strong> {{ $university->name }}</li>
-            <li><strong>Vista de la entrevista:</strong> <a href="{{ $linkToInterviewView }}" class="button">Abrir Entrevista</a></li>
 
-            @if (!empty($customMessage))
-            <li><strong>Notas adicionales:</strong> {{ $customMessage }}</li>
-            @endif
         </ul>
+
+        <p style="margin-top: 20px;">
+            Por favor, mantente al pendiente de tu correo electrónico para recibir el link de la videollamada.
+        </p>
+
+        <p>Gracias por tu interés en formar parte de nuestro equipo.</p>
+
+        <p>Atentamente,<br>
+            <strong>Equipo de Reclutamiento - Grupo RAMA</strong>
+        </p>
     </div>
     <!-- Firma de Grupo RAMA -->
     <table border="0" cellpadding="0" cellspacing="0" width="500" style="width:500px; max-width:500px; font-family:Arial, sans-serif; background:#ffffff; margin-top:20px; border-top:1px solid #e0e0e0;">

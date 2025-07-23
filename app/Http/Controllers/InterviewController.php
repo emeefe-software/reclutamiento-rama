@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 
 class InterviewController extends Controller
 {
@@ -162,7 +164,7 @@ class InterviewController extends Controller
             'university.required' => 'El campo universidad es requerido',
             'university.exists' => 'La universidad no existe',
             'program.required' => 'El campo programa es requerido',
-            'skype.required' => 'La cuenta de skype es requerida',
+            'skype.required' => 'La cuenta de gmail es requerida',
             'cv.mimetypes' => 'El CV debe estar en formato PDF',
             'portfolio.mimetypes' => 'El portafolio debe estar en formato PDF',
             'date.required' => 'La fecha es requerida',
@@ -211,7 +213,7 @@ class InterviewController extends Controller
             $career = Career::find($request->career);
             $program = $career->programs()->find($request->program);
             $responsable = User::find($program->pivot->responsable_id);
-
+            $message = $request->message ?? '';
 
             $user = User::create([
                 'password' => Hash::make('pass-' . rand(1000, 2000)),
@@ -269,10 +271,18 @@ class InterviewController extends Controller
                 'msg' => 'Ocurrió un error'
             ], 409);
         }
-
+        //Correo a responsable
         try {
-            Mail::to($responsable)->send(new ScheduledInterview($user, $career, $program, $interview, route('interviews.show', ['interview' => $interview->id])));
+            Mail::to($responsable)->send(new ScheduledInterview($user, $career, $program, $interview, route('interviews.show', ['interview' => $interview->id]), $message, 'emails.scheduled_interview'));
         } catch (\Throwable $th) {
+            Log::error("Error al enviar correo: " . $th->getMessage());
+        }
+
+        //Correo a candidato
+        try {
+            Mail::to($user)->send(new ScheduledInterview($user, $career, $program, $interview, route('interviews.show', ['interview' => $interview->id]), $message, 'emails.scheduled_interviee'));
+        } catch (\Throwable $th) {
+            Log::error("Error al enviar correo: " . $th->getMessage());
         }
 
         return Response::json([

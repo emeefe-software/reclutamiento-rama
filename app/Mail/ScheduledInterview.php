@@ -23,12 +23,14 @@ class ScheduledInterview extends Mailable
     public $university;
     public $interview;
     public $linkToInterviewView;
+    public $customMessage;
+    public $customView;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $candidate, Career $career, Program $program, Interview $interview, String $linkToInterviewView)
+    public function __construct(User $candidate, Career $career, Program $program, Interview $interview, String $linkToInterviewView,String $customMessage, String $view)
     {
         $this->candidate = $candidate;
         $this->career = $career;
@@ -36,6 +38,8 @@ class ScheduledInterview extends Mailable
         $this->university = $program->university;
         $this->interview = $interview;
         $this->linkToInterviewView = $linkToInterviewView;
+        $this->customMessage = $customMessage ?: '';
+        $this->customView = $view;
     }
 
     /**
@@ -47,7 +51,7 @@ class ScheduledInterview extends Mailable
     {
         $datetimeCarbon = Carbon::parse($this->interview->hour()->first()->datetime);
         return $this->from('checador@emeefe.mx')
-                    ->subject('Nueva entrevista '.$datetimeCarbon->toFormattedDateString().' con '. $this->candidate->fullname())
-                    ->view('emails.scheduled_interview');
+            ->subject('Nueva entrevista ' . $datetimeCarbon->toFormattedDateString() . ' con ' . $this->candidate->fullname())
+            ->view($this->customView);
     }
 }

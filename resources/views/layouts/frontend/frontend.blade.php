@@ -51,7 +51,7 @@
     <script src="{{asset('js/frontend/plugins/waypoints.min.js')}}"></script>
     <!-- custom js -->
     <script src="{{asset('js/frontend/plugins/custom.min.js')}}"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 
     @yield('scripts')

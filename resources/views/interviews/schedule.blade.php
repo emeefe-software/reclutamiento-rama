@@ -83,7 +83,7 @@
                             <div class="form-group">
                                 @if(\Setting::get('mode')=='videoCall')
                                     <label for="skype">GMAIL (te contactaremos por Google Meet)</label>
-                                    <input class="form-control" name="skype" id="skype" type="text" required>
+                                    <input class="form-control" name="skype" id="skype" type="mail" required>
                                 @else
                                     <input class="form-control" name="skype" id="skype" type="hidden" value="Not" required>
                                 @endif
