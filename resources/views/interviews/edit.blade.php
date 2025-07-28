@@ -35,7 +35,7 @@
                         <br><b>Email:</b> {{ $candidate->email }}
                         <br><b>Teléfono:</b> {{ $candidate->phone }}
                         <br><b>Carrera:</b> {{ $career->name }}
-                        <br><b>Skype:</b> {{ $candidate->skype }}
+                        <br><b>Gmail:</b> {{ $candidate->skype }}
                         <div class="row mt-4">
                             @if ($interview->CV)
                             <div class="col-sm-6">
