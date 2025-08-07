@@ -26,19 +26,10 @@ class DatabaseSeeder extends Seeder
     private function createUsers(){
         $user = User::create([
             'password' => Hash::make('12345678'),
-            'first_name'=> 'Abraham',
-            'last_name'=> 'Flores',
-            'email'=> 'abraham@emeefe.mx',
-            'area'=> 'Computación'
-        ]);
-        $user->attachRoles([Role::ROLE_RESPONSABLE]);
-
-        $user = User::create([
-            'password' => Hash::make('12345678'),
-            'first_name'=> 'Angélica',
-            'last_name'=> 'Hernández',
-            'email'=> 'angelica.h@mundofrio.com.mx',
-            'area'=> 'Diseño'
+            'first_name'=> 'Sebastian',
+            'last_name'=> 'Kempis',
+            'email'=> 'sebastian.kempis@dingdong.mx',
+            'area'=> 'Recursos Humanos'
         ]);
         $user->attachRoles([Role::ROLE_RESPONSABLE]);
     }
