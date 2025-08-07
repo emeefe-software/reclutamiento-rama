@@ -15,6 +15,7 @@ class SettingController extends Controller
         Setting::set('mode',$request->mode);
         Setting::set('msgFaceToFace',$request->faceToFace);
         Setting::set('msgVideoCall',$request->videoCall);
+        Setting::set('ip',$request->ip);
         Setting::save();
         alert()->success('Se guardó la configuración correctamente','Configuración');
         return redirect()->route('settings');
