@@ -168,7 +168,7 @@
                 axios.post('{{ route("users.store") }}', dataForm)
                 .then(response => {
                     this.success = true;
-                    swal({
+                    Swal.fire({
                         title: 'Registro Completo',
                         text: 'el registro realizo correctamente',
                         icon: 'success',
@@ -183,7 +183,7 @@
                     this.success = false;
                     let element = document.querySelector('[name="'+ Object.keys(this.errors)[0] +'"]')
                     element.focus();
-                    swal({
+                    Swal.fire({
                         icon: 'error',
                         title: 'verifica los datos ingresados',
                     });
