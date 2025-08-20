@@ -1,10 +1,10 @@
 const app = new Vue({
     el: '#app',
     mounted() {
-        /*this.recaptcha = window.grecaptcha.render('recaptcha', {
+        this.recaptcha = window.grecaptcha.render('recaptcha', {
             'sitekey': google_recaptcha_key,
             'theme': 'light'
-        });*/
+        });
     },
     data: {
         cinematografia: false,

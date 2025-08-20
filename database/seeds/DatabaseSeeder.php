@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'first_name'=> 'Sebastian',
             'last_name'=> 'Kempis',
-            'email'=> 'sebastian.kempis@dingdong.mx',
+            'email'=> 'sebastian.kempis@dingdong.mx ',
             'area'=> 'Recursos Humanos'
         ]);
         $user->attachRoles([Role::ROLE_RESPONSABLE]);
